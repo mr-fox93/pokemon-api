@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { LoginContext } from "./LoginContext";
 import { v4 as uuidv4 } from "uuid";
 import { NewPokemonContext } from "./NewPokemonContext";
+import { FightArenaContext } from "./FightArenaContext";
 
 export const typeColor = (type) => {
   switch (type) {
@@ -95,8 +96,11 @@ const PokemonCard = ({ pokemon, setPokemons }) => {
   const nav = useNavigate();
   const [editablePokemon, setEditablePokemon] = useState(pokemon);
   const [showEditFields, setShowEditFields] = useState(false);
-  const { addFavorite, updateFavorite } = useFavorite();
+  const { addFavorite, updateFavorite, ifExist, removeFavorite } =
+    useFavorite();
   const { setNewPokemon } = useContext(NewPokemonContext);
+  const { ifExistFightPokemon, removeOnePokemon, addPokemonToFightArena } =
+    useContext(FightArenaContext);
 
   useEffect(() => {
     const savedData = localStorage.getItem(pokemon.id);
@@ -264,8 +268,17 @@ const PokemonCard = ({ pokemon, setPokemons }) => {
       {!showEditFields && (
         <Button
           size="small"
-          style={{ border: "1px solid black", background: "transparent" }}
-          onClick={() => addFavorite(editablePokemon)}
+          style={{
+            border: "1px solid black",
+            background: ifExist(editablePokemon.id) ? "red" : "transparent",
+          }}
+          onClick={() => {
+            if (ifExist(editablePokemon.id)) {
+              removeFavorite(editablePokemon.id);
+            } else {
+              addFavorite(editablePokemon);
+            }
+          }}
           class="ui labeled button"
           tabindex="0"
         >
@@ -278,6 +291,22 @@ button"
           </div>
         </Button>
       )}
+      <button
+        style={{
+          background: ifExistFightPokemon(editablePokemon.id)
+            ? "black"
+            : "transparent",
+        }}
+        onClick={() => {
+          if (ifExistFightPokemon(editablePokemon.id)) {
+            removeOnePokemon(editablePokemon.id);
+          } else {
+            addPokemonToFightArena(editablePokemon);
+          }
+        }}
+      >
+        FIGHT{" "}
+      </button>
     </Card>
   );
 };

@@ -35,6 +35,10 @@ export const FightArenaProvider = ({ children }) => {
     setAlert(false);
   };
 
+  const removeOnePokemon = (id) => {
+    setFightArena(fightArena.filter((item) => item.id !== id));
+  };
+
   return (
     <FightArenaContext.Provider
       value={{
@@ -47,6 +51,9 @@ export const FightArenaProvider = ({ children }) => {
         closeAlert,
         error,
         closeError,
+        ifExistFightPokemon,
+        removeOnePokemon,
+        addPokemonToFightArena,
       }}
     >
       {children}

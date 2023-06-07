@@ -7,6 +7,7 @@ import { Message } from "semantic-ui-react";
 import { ThemeContext } from "./ThemeContext";
 import NewPokemon from "./NewPokemon";
 import { NewPokemonContext } from "./NewPokemonContext";
+import { FightArenaContext } from "./FightArenaContext";
 
 const PokemonsGrid = styled.div`
   display: flex;
@@ -38,10 +39,11 @@ const Wrapper = styled.body`
 const PokemonsCards = () => {
   const [pokemons, setPokemons] = useState([]);
   const { search } = useContext(SearchContext);
-  const { error, closeError } = useFavorite();
+  //const { errorF, closeError } = useFavorite();
   const [type, setType] = useState("");
   const { theme } = useContext(ThemeContext);
   const { newPokemon } = useContext(NewPokemonContext);
+  const { error, closeError } = useContext(FightArenaContext);
 
   const fetchPokemons = async () => {
     const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=150");
@@ -97,7 +99,7 @@ const PokemonsCards = () => {
             negative
             className="ui huge message"
             onDismiss={closeError}
-            header="This pokemon is already in your favorites !   "
+            header="Fight arena is full !   "
             style={{
               position: "fixed",
               top: "50%",

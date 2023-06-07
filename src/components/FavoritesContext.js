@@ -8,7 +8,7 @@ export const useFavorite = () => {
 
 export const FavoritesProvider = ({ children }) => {
   const [favorites, setFavorites] = useState([]);
-  const [error, setError] = useState(false);
+  const [errorF, setError] = useState(false);
   const [count, setCount] = useState(0);
 
   const closeError = () => {
@@ -55,11 +55,12 @@ export const FavoritesProvider = ({ children }) => {
         favorites,
         addFavorite,
         removeFavorite,
-        error,
+        errorF,
         closeError,
         removeAll,
         count,
         updateFavorite,
+        ifExist,
       }}
     >
       {children}
